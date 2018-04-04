@@ -1,0 +1,72 @@
+# This script contains installation commands on a fresh ubuntu 16.04 install
+
+sudo apt update && sudo apt upgrade
+# Utilities =================================================
+
+# Install Vim
+sudo apt-get -y install vim
+
+# Install ubuntu-restricted-extras
+sudo apt-get -y install ubuntu-restricted-extras
+
+# Install git
+sudo apt-get -y install git
+
+# Install common build-tools
+sudo apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev \
+libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev \
+xz-utils tk-dev
+
+
+# Themes -- very important ===================================
+# Install adapta GTK Theme
+#sudo apt-add-repository ppa:tista/adapta
+#sudo apt-get update && sudo apt-get -y install adapta-gtk-theme
+
+# Paper icons
+sudo add-apt-repository ppa:snwh/pulp
+sudo apt-get update
+sudo apt-get install paper-icon-theme
+sudo apt-get install paper-cursor-theme
+sudo apt-get install paper-gtk-theme
+
+# Unity tweak tool
+sudo apt-get -y install unity-tweak-tool
+
+# Add plank
+sudo add-apt-repository ppa:ricotz/docky
+sudo apt-get update && sudo apt-get install plank
+
+# Python ===================================================
+# Pyenv
+git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
+echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
+echo -e 'if command -v pyenv 1>/dev/null 2>&1; then\n  eval "$(pyenv init -)"\nfi' >> ~/.bashrc
+# Install zlib
+
+
+# Pyenv Virtualenv
+git clone https://github.com/pyenv/pyenv-virtualenv.git $(pyenv root)/plugins/pyenv-virtualenv
+
+echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.bashrc
+
+# Container Software ======================================
+
+VERSION=2.4.5
+wget https://github.com/singularityware/singularity/releases/download/$VERSION/singularity-$VERSION.tar.gz
+tar xvf singularity-$VERSION.tar.gz
+cd singularity-$VERSION
+./configure --prefix=/usr/local
+make
+sudo make install
+
+# Docker CE
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo add-apt-repository \
+   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+   $(lsb_release -cs) \
+   stable"
+
+sudo apt-get update && sudo apt-get install docker-ce
+
